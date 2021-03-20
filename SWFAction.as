@@ -64,7 +64,31 @@
 				collectted.shift();
 			}
 			
+			classNames.forEach(function(n){
+				if(n != "flash.display::MovieClip"){
+					if(!generated[n]){
+						
+						var myClass:Class = getDefinitionByName(n) as Class;
+						var mc:MovieClip = new myClass() as MovieClip;
+						mc.stop();
+						 
+						while(mc.currentFrame != mc.totalFrames){
+							mc.nextFrame();
+						}
 			
+						for(var f=0;f<mc.totalFrames;f++){
+							if(actions[n] != undefined && actions[n]["frame"+f]){
+								if(actions[n]["frame"+f].action != undefined){
+									trace(n+"Frame:"+f+actions[n]["frame"+f].action);
+								}
+							}
+							
+						}
+						
+						generated[n] = true;
+					}
+				}
+			});
 			
 			
 		}
